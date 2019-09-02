@@ -1,0 +1,40 @@
+Sub Stock_Market()
+
+Dim LRow As Long
+Dim LCol As Long
+loop_index = 2
+column_index = 1
+ticker_acronym = Cells(loop_index, column_index).Value
+TotalStockVolume = 0
+
+
+    'Find the last non-blank cell in column A(1)
+    LRow = Cells(Rows.Count, 1).End(xlUp).Row
+    
+    'Find the last non-blank cell in row 1
+    LCol = Cells(1, Columns.Count).End(xlToLeft).Column
+
+    'Print New Headers
+    Cells(loop_index - 1, LCol + 1).Value = "Ticker"
+    Cells(loop_index - 1, LCol + 2).Value = "Total Stock Volume"
+
+    ' add up same tickers together. add 1 if new ticker
+    row_acronym = 2
+
+    'Start looping to get ticker and total stock volume
+    For i = 2 To LRow
+        TotalStockVolume = TotalStockVolume + Cells(loop_index, LCol).Value
+        If (Cells(loop_index, column_index).Value <> Cells(loop_index + 1, column_index).Value) Then
+            Cells(row_acronym, LCol + 1).Value = ticker_acronym
+            Cells(row_acronym, LCol + 2).Value = TotalStockVolume
+            TotalStockVolume = 0
+            ticker_acronym = Cells(loop_index + 1, column_index).Value
+            row_acronym = row_acronym + 1
+        End If
+        loop_index = loop_index + 1
+    Next i
+End Sub
+
+
+
+
